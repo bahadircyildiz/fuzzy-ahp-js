@@ -1,8 +1,7 @@
 function Controller($scope, $filter){
-	$scope.stepCount = 0;
 
 	$scope.settings={
-		criteriaCount: 0
+		criteriaCount: null
 	}
 
 	$scope.createPairwiseMatrix = function(){
