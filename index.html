@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/angular.min.js"></script>
+	<script type="text/javascript" src="scripts/sift.min.js"></script>
+	<script type="text/javascript" src="scripts/bootstrap.js"></script>
+	<link rel="stylesheet" href="styles/bootstrap.css" />
+	<title>Fuzzy AHP</title>
+</head>
+<body ng-app="fuzzyahp" ng-controller="global">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Fuzzy AHP</a>
+				<a class="navbar-text navbar-right pull-right" href="">Bahadir Can Yildiz</a>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid">
+<!--		<div class="row">
+			<div class="col-xs-12">
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title"> Assignment Briefing </h4>
+						</div>
+						<div class="panel-collapse collapse am-collase in">
+							<div class="panel-body">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>-->
+		</div>
+		<div class="row">
+			<div class="col-xs-3">
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Settings</h4>
+						</div>
+						<div class="panel-collapse collapse am-collase in">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>Setting</th>
+													<th>Value</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="(s_key,s_val) in settings track by $index">
+													<td>{{s_key}}</td>
+													<td><input type="number" class="form-control input-sm" ng-model="settings[s_key]" /></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-xs-12"><button class="btn btn-default" ng-click="createPairwiseMatrix()">Create Pairwise Matrix</button></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-9" ng-if="pairwiseMatrix">
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Pairwise Matrix</h4>
+						</div>
+						<div class="panel-collapse collapse am-collapse in">
+							<div class="panel-body">
+								<div class="container">
+									<div class="row">
+										<table class="table container">
+											<thead>
+												<tr>
+													<th>Labels</th>
+													<th ng-repeat="label in pairwiseMatrix.labels track by $index">{{label}}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="(y_index, values) in pairwiseMatrix.values track by y_index">
+													<th> 
+														<input type="text" class="form-control input-sm" ng-model ="pairwiseMatrix.labels[y_index]">
+													</th>
+													<td ng-repeat="(x_index, val) in values track by x_index">
+														<input type="number" class="form-control input-sm" 
+																ng-model="pairwiseMatrix.values[y_index][x_index]" 
+																ng-if="x_index != y_index"
+																ng-change="adjustValues(y_index, x_index)"/>
+														<span ng-if="x_index == y_index">{{val}}</span>
+													</td>
+												</tr>
+											</tbody>
+											<tfoot ng-if="sums">
+												<th>Sums</td>
+												<td ng-repeat="sum in sums track by $index">
+													{{sum}}
+												</td>
+											</tfoot>
+										</table>
+									</div>
+									<div class="row">
+										<button class="btn btn-default" ng-click="createStandardizedMatrix()">Create Standardized Matrix</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-group" ng-if="standardizedMatrix">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Standardized Matrix</h4>
+						</div>
+						<div class="panel-collapse collapse am-collapse in">
+							<div class="panel-body">
+								<div class="container">
+									<div class="row">
+										<table class="table container">
+											<thead>
+												<tr>
+													<th>Labels</th>
+													<th ng-repeat="label in standardizedMatrix.labels track by $index">{{label}}</th>
+													<th ng-if="weight">Weight</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="(y_index, values) in standardizedMatrix.values track by y_index">
+													<th> 
+														{{standardizedMatrix.labels[y_index]}}
+													</th>
+													<td ng-repeat="(x_index, val) in values track by x_index">
+														{{val}}
+													</td>
+													<td ng-if="weight">
+														{{weight[y_index]}}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="row">
+										<button class="btn btn-default" ng-click="createStandardizedMatrix()">Create Standardized Matrix</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" src="scripts/controller.js"></script>
+	<script type="text/javascript" src="scripts/core.js"></script>
+</html>
