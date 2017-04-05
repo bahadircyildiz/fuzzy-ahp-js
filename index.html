@@ -101,9 +101,9 @@
 											</tbody>
 											<tfoot ng-if="sums">
 												<th>Sums</td>
-												<td ng-repeat="sum in sums track by $index">
+												<th ng-repeat="sum in sums track by $index">
 													{{sum}}
-												</td>
+												</th>
 											</tfoot>
 										</table>
 									</div>
@@ -140,15 +140,12 @@
 													<td ng-repeat="(x_index, val) in values track by x_index">
 														{{val}}
 													</td>
-													<td ng-if="weight">
+													<th ng-if="weight">
 														{{weight[y_index]}}
-													</td>
+													</th>
 												</tr>
 											</tbody>
 										</table>
-									</div>
-									<div class="row">
-										<button class="btn btn-default" ng-click="createStandardizedMatrix()">Create Standardized Matrix</button>
 									</div>
 								</div>
 							</div>
